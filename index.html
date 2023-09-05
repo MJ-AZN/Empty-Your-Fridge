@@ -1,1 +1,29 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="./assets/script.js" defer></script>
+</head>
+<body>
+    <header class="headerEl">Empty Your Fridge</header>
+    <nav>ingredients, recipes</nav>
+    <main>
+        <div class="searchContainer">
+            <h2 class="searchContainerHeaderEl">Search your ingredients:</h3>
+                <form id="searchIngredients">
+                    <input name="ingredients" type="text" id="ingredientSearchInput">
+                    <button type="submit" class="searchBtn">Search</button>
+                </form>
+            <div class="ingredientListContainer"></div>
+            <h2 class="ingredientListHeaderEl">Here are your ingredients:</h2>
+        </div>
+        <div class="recipeContainer">
+            <h2 class="recipeContainerHeaderEl">See the recipes below:</h2>
+            <div class="recipeListContainer"></div>
+        </div>
+    </main>
+</body>
+</html>
