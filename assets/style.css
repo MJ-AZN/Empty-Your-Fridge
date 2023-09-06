@@ -1,0 +1,13 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    color:black;
+}
+
+.headerEl {
+    padding: 20px;
+    font-family:'Times New Roman', Times, serif;
+    background-color: #A5D0DD;
+    color: #ffffff;
+}

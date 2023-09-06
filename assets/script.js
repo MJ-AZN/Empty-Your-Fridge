@@ -11,6 +11,8 @@ var ingredientStack = [];
 /*
 Functions
 
+
+
 1.click event function
 we need a function that targets the event listener for the search bar
 preventdefault
