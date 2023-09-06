@@ -25,12 +25,19 @@ main{
     margin: 0 auto;
     max-width: 800px;
     padding: 30px 40px;
+    display: flex;
 }
 
 .searchContainer{
+    height: 800px;
+    width: 400px;
     margin: auto;
+    background-color: #454D59;
 }
 
 .recipeContainer{
+    height: 800px;
+    width: 400px;
     margin: auto;
+    background-color: #8C98B6;
 }
