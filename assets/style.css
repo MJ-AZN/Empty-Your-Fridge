@@ -33,6 +33,7 @@ main{
     width: 400px;
     margin: auto;
     background-color: #454D59;
+    text-align: center;
 }
 
 .recipeContainer{
@@ -41,3 +42,4 @@ main{
     margin: auto;
     background-color: #8C98B6;
 }
+
