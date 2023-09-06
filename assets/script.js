@@ -1,6 +1,6 @@
 
 
-//Global constiables
+//Global variables
 const ingredientList = querySelector(".ingredientListContainer");
 const recipeList = querySelector(".recipeListContainer");
 const searchIngredientsForm = querySelector(".searchIngredientsForm");
