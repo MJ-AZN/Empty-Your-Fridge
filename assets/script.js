@@ -1,15 +1,32 @@
 
 
 //Global variables
-const ingredientList = querySelector(".ingredientListContainer");
-const recipeList = querySelector(".recipeListContainer");
-const searchIngredientsForm = querySelector(".searchIngredientsForm");
-const ingredientSearchInput = querySelector(".ingredientSearchInput");
-const buttonEl = querySelector(".searchBtn");
+const ingredientList = document.querySelector(".ingredientListContainer");
+const recipeList = document.querySelector(".recipeListContainer");
+const searchIngredientsForm = document.getElementById("searchIngredients");
+const ingredientSearchInput = document.getElementById("ingredientSearchInput");
+const buttonEl = document.querySelector(".searchBtn");
 var ingredientStack = [];
 
+function search(){
+    event.preventDefault();
+    const userInput = ingredientSearchInput.value;
+    const userList = document.createElement("li"); // how will it know where to create the element?
+    userList.textContent = `${userInput}`;
+
+    ingredientList.append(userList);
+
+    /* if (userInput != API ingredient){
+        change the bullet point to RED
+    } 
+    else{
+    ingredientStack.append(userInput);
+    userInput.value = "";
+    
+    }
+    */
+}
 /*
-Functions
 
 1.click event function
 we need a function that targets the event listener for the search bar
