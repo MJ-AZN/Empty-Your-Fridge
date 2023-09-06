@@ -8,7 +8,7 @@ const ingredientSearchInput = document.getElementById("ingredientSearchInput");
 const buttonEl = document.querySelector(".searchBtn");
 var ingredientStack = [];
 
-function search(){
+function search(event){
     event.preventDefault();
     const userInput = ingredientSearchInput.value;
     const userList = document.createElement("li"); // how will it know where to create the element?
@@ -21,10 +21,11 @@ function search(){
     } 
     else{
     ingredientStack.append(userInput);
-    userInput.value = "";
+    
     
     }
     */
+    ingredientSearchInput.value = "";
 }
 /*
 
@@ -60,6 +61,9 @@ upon click, the recipe will have a dropdown displaying: ingredient list, nutriti
 
 Processes
 an eventlistener for the search ingredient click event
-an eventlistener for the search recipe click event
-an eventlistener for the click recipe event-dropdown
 */
+
+buttonEl.addEventListener("click", search)
+
+// an eventlistener for the search recipe click event
+// an eventlistener for the click recipe event-dropdown
