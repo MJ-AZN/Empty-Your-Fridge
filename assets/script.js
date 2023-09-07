@@ -21,15 +21,9 @@ function search(event){
     ingredientList.append(userList);
     ingredientSearchInput.value = "";
     const queryParams = { 
-      i: ingredientStack
+      i: ingredientStack.join(', ')
     };
     
-    fetchRecipesByIngredients(queryParams);
-  
-  
-function fetchRecipesByIngredients(queryParams) {
-}
-  
 function buildUrl(baseUrl) {
   const url = new URL(baseUrl);
   url.searchParams.append('userParam', userInput);
@@ -49,6 +43,7 @@ function buildUrl(baseUrl) {
     .then(response => response.json())
     .then(data => {
       console.log(data);
+      renderRecipes(data.meals);
     })
     .catch(error => {
       console.error('Error:', error);
