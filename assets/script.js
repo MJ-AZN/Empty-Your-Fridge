@@ -7,24 +7,52 @@ const recipeList = document.querySelector(".recipeListContainer");
 const searchIngredientsForm = document.getElementById("searchIngredients");
 const ingredientSearchInput = document.getElementById("ingredientSearchInput");
 const buttonEl = document.querySelector(".searchBtn");
-var ingredientStack = [];
+let ingredientStack = [];
 
 function search(event){
   event.preventDefault();
   const userInput = ingredientSearchInput.value;
 
-    ingredientStack.push(userInput);
-    console.log(ingredientStack)
-
+    if(!userInput) {
+        console.log("User input was invalid.")
+        return;
+    }
+        
+        ingredientStack.push(userInput);
+        console.log(ingredientStack)
+        
     const userList = document.createElement("li"); // how will it know where to create the element?
+    var button = document.createElement("button");
     userList.textContent = `${userInput}`;
     ingredientList.append(userList);
     ingredientSearchInput.value = "";
     const queryParams = { 
       i: ingredientStack
     };
-    
+    userList.appendChild(button);
+    button.addEventListener("click", function(){
+        userList.remove();
+        const index = ingredientStack.indexOf(`${userInput}`);
+        if(index > -1){
+            ingredientStack.splice(index, 1);
+        }
+        // ingredientStack = ingredientStack.filter((word) => word !== "");
+    })
+
+
     fetchRecipesByIngredients(queryParams);
+
+    /*
+    for (var i = 0; i < userList.length; i++){
+        var li = userList[i];
+        var button = document.createElement("button");
+        button.textContent = "-";
+        button.addEventListener("click", function(){
+            li.remove();
+        })
+        li.appendChild(button);
+    }
+    */
   
   
 function fetchRecipesByIngredients(queryParams) {
@@ -60,6 +88,11 @@ function renderRecipes() {
 
 }
 
+let words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+
+words = words.filter((word) => word !== "elite");
+
+console.log(words);
 
 
 /*
