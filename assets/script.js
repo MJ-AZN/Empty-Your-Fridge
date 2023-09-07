@@ -1,3 +1,4 @@
+const baseUrl = 'https://www.themealdb.com/api/json/v2/9973533/filter.php';
 
 
 //Global variables
@@ -13,21 +14,40 @@ function search(event){
     const userInput = ingredientSearchInput.value;
     const userList = document.createElement("li"); // how will it know where to create the element?
     userList.textContent = `${userInput}`;
-
     ingredientList.append(userList);
-
-    /* if (userInput != API ingredient){
-        change the bullet point to RED
-    } 
-    else{
-    ingredientStack.append(userInput);
-    
-    
-    }
-    */
     ingredientSearchInput.value = "";
+
+    const queryParams = {
+      i: userInput,
+    };
+  
+function buildUrl(baseUrl) {
+  const url = new URL(baseUrl);
+  url.searchParams.append('userParam', userInput);
+
+
+  if (queryParams) {
+    for (const key in queryParams) {
+      url.searchParams.append(key, queryParams[key]);
+    }
+  }
+
+  return url.href;
+}
+const completeUrl = buildUrl(baseUrl, queryParams);
+
+fetch(completeUrl)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 /*
+
+
 
 1.click event function
 we need a function that targets the event listener for the search bar
