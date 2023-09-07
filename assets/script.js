@@ -1,4 +1,4 @@
-const baseUrl = 'https://www.themealdb.com/api/json/v2/9973533/filter.php';
+const baseUrl = 'https://www.themealdb.com/api/json/v2/9973533/filter.php'; 
 
 
 //Global variables
@@ -10,16 +10,25 @@ const buttonEl = document.querySelector(".searchBtn");
 var ingredientStack = [];
 
 function search(event){
-    event.preventDefault();
-    const userInput = ingredientSearchInput.value;
+  event.preventDefault();
+  const userInput = ingredientSearchInput.value;
+
+    ingredientStack.push(userInput);
+    console.log(ingredientStack)
+
     const userList = document.createElement("li"); // how will it know where to create the element?
     userList.textContent = `${userInput}`;
     ingredientList.append(userList);
     ingredientSearchInput.value = "";
-
-    const queryParams = {
-      i: userInput,
+    const queryParams = { 
+      i: ingredientStack
     };
+    
+    fetchRecipesByIngredients(queryParams);
+  
+  
+function fetchRecipesByIngredients(queryParams) {
+}
   
 function buildUrl(baseUrl) {
   const url = new URL(baseUrl);
@@ -34,17 +43,25 @@ function buildUrl(baseUrl) {
 
   return url.href;
 }
-const completeUrl = buildUrl(baseUrl, queryParams);
+  const completeUrl = buildUrl(baseUrl, queryParams);
 
-fetch(completeUrl)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  fetch(completeUrl)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
 }
+
+
+function renderRecipes() {
+
+}
+
+
+
 /*
 
 
