@@ -7,53 +7,88 @@ const recipeList = document.querySelector(".recipeListContainer");
 const searchIngredientsForm = document.getElementById("searchIngredients");
 const ingredientSearchInput = document.getElementById("ingredientSearchInput");
 const buttonEl = document.querySelector(".searchBtn");
-var ingredientStack = [];
+let ingredientStack = [];
 
 function search(event){
   event.preventDefault();
   const userInput = ingredientSearchInput.value;
 
-    ingredientStack.push(userInput);
-    console.log(ingredientStack)
-
-    const userList = document.createElement("li"); // how will it know where to create the element?
+    if(!userInput) {
+        console.log("User input was invalid.")
+        return;
+    }
+        
+        ingredientStack.push(userInput);
+        console.log(ingredientStack)
+        
+    const userList = document.createElement("li"); 
     userList.textContent = `${userInput}`;
     ingredientList.append(userList);
     ingredientSearchInput.value = "";
+
     const queryParams = { 
-      i: ingredientStack.join(', ')
+      i: ingredientStack
     };
+
+    var button = document.createElement("button");
+    userList.appendChild(button);
+    button.addEventListener("click", function(){
+        userList.remove();
+        const index = ingredientStack.indexOf(`${userInput}`);
+        if(index > -1){
+            ingredientStack.splice(index, 1);
+        }
+    })
+
+
+    fetchRecipesByIngredients(queryParams);
+  
+  
     
-function buildUrl(baseUrl) {
-  const url = new URL(baseUrl);
-  url.searchParams.append('userParam', userInput);
-
-
-  if (queryParams) {
-    for (const key in queryParams) {
-      url.searchParams.append(key, queryParams[key]);
+    function buildUrl(baseUrl) {
+      const url = new URL(baseUrl);
+      url.searchParams.append('i', userInput);
+      
+      
+      if (queryParams) {
+        for (const key in queryParams) {
+          url.searchParams.append(key, queryParams[key]);
+        }
+      }
+      
+      return url.href;
+    }
+    function fetchRecipesByIngredients(queryParams) {
+      const completeUrl = buildUrl(baseUrl, queryParams);
+      
+      fetch(completeUrl)
+      .then(response => response.json())
+      .then(data => {
+        renderRecipes(data.meals);
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     }
   }
 
-  return url.href;
+
+function renderRecipes(meals) {
+  recipeList.innerHTML = ''; 
+
+  meals.forEach(meal => {
+    const recipeItem = document.createElement('div');
+    recipeItem.classList.add('recipeItem');
+    
+    const recipeName = document.createElement('p');
+    recipeName.textContent = meal.strMeal; 
+    
+    recipeItem.appendChild(recipeName);
+    recipeList.appendChild(recipeItem);
+  });
 }
-  const completeUrl = buildUrl(baseUrl, queryParams);
 
-  fetch(completeUrl)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      renderRecipes(data.meals);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
-
-
-function renderRecipes() {
-
-}
 
 
 
