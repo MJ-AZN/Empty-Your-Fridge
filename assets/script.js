@@ -1,4 +1,5 @@
 const baseUrl = 'https://www.themealdb.com/api/json/v2/9973533/filter.php';
+let redirectUrl = './assets/single.html';
 
 
 //Global variables
@@ -7,44 +8,130 @@ const recipeList = document.querySelector(".recipeListContainer");
 const searchIngredientsForm = document.getElementById("searchIngredients");
 const ingredientSearchInput = document.getElementById("ingredientSearchInput");
 const buttonEl = document.querySelector(".searchBtn");
-var ingredientStack = [];
-
-function search(event){
-    event.preventDefault();
-    const userInput = ingredientSearchInput.value;
-    const userList = document.createElement("li"); // how will it know where to create the element?
-    userList.textContent = `${userInput}`;
-    ingredientList.append(userList);
-    ingredientSearchInput.value = "";
-
-    const queryParams = {
-      i: userInput,
-    };
-  
-function buildUrl(baseUrl) {
-  const url = new URL(baseUrl);
-  url.searchParams.append('userParam', userInput);
+let ingredientStack = [];
 
 
-  if (queryParams) {
-    for (const key in queryParams) {
-      url.searchParams.append(key, queryParams[key]);
-    }
+//2nd HTML page
+const selectedRecipeContainer = document.querySelector(".selectedRecipeContainer");
+
+
+
+function search(event) {
+  event.preventDefault();
+  const userInput = ingredientSearchInput.value;
+
+  if (!userInput) {
+    console.log("User input was invalid.")
+    return;
   }
 
-  return url.href;
-}
-const completeUrl = buildUrl(baseUrl, queryParams);
+  ingredientStack.push(userInput);
+  console.log(ingredientStack)
 
-fetch(completeUrl)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
+  const userList = document.createElement("li");
+  userList.textContent = `${userInput}`;
+  ingredientList.append(userList);
+  ingredientSearchInput.value = "";
+
+  const queryParams = {
+    i: ingredientStack
+  };
+
+  var button = document.createElement("button");
+  userList.appendChild(button);
+  button.addEventListener("click", function () {
+    userList.remove();
+    const index = ingredientStack.indexOf(`${userInput}`);
+    if (index > -1) {
+      ingredientStack.splice(index, 1);
+    }
   })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+
+
+  fetchRecipesByIngredients(queryParams);
+
+
+
+  function buildUrl(baseUrl) {
+    const url = new URL(baseUrl);
+    url.searchParams.append('i', userInput);
+
+
+    if (queryParams) {
+      for (const key in queryParams) {
+        url.searchParams.append(key, queryParams[key]);
+      }
+    }
+
+    return url.href;
+  }
+
+  function fetchRecipesByIngredients(queryParams) {
+    const completeUrl = buildUrl(baseUrl, queryParams);
+
+    fetch(completeUrl)
+      .then(response => response.json())
+      .then(data => {
+        renderRecipes(data.meals);
+        console.log(data.meals);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+  }
 }
+
+
+function renderRecipes(meals) {
+  recipeList.innerHTML = '';
+  console.log(meals);
+
+  meals.forEach(meal => {
+    const recipeItem = document.createElement('div');
+    recipeItem.classList.add('recipeItem');
+
+    const recipeName = document.createElement('p');
+    recipeName.textContent = meal.strMeal;
+    recipeName.setAttribute('href', redirectUrl);
+    recipeName.setAttribute('target', '_blank');
+
+    recipeItem.appendChild(recipeName);
+    recipeList.appendChild(recipeItem);
+
+
+
+    recipeName.addEventListener("click", (event) => {
+
+      const target = event.target.textContent;
+      let redirectUrl = './assets/single.html';
+      location.href = redirectUrl;
+      const mealObject = meals.filter((food) => {
+        if (food.strMeal === target) {
+          return food;
+        }
+      })
+      console.log(mealObject)
+
+      localStorage.setItem("clickedMeal", JSON.stringify(mealObject))
+
+      const clickedMeal = localStorage.getItem("clickedMeal")
+      JSON.parse(clickedMeal);
+      console.log(JSON.parse(clickedMeal));
+
+    })
+  })
+}
+
+
+
+
+;
+
+
+
+
+
 /*
 
 
@@ -83,7 +170,9 @@ Processes
 an eventlistener for the search ingredient click event
 */
 
-buttonEl.addEventListener("click", search)
+buttonEl.addEventListener("click", search);
 
 // an eventlistener for the search recipe click event
 // an eventlistener for the click recipe event-dropdown
+
+//recipeName.addEventListener("click", redirectHandler);
