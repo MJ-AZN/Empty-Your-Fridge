@@ -1,6 +1,7 @@
 var selectedRecipeContainer = document.querySelector(".selectedRecipeContainer");
 var selectedRecipeFullInfo = document.querySelector(".selectedRecipeFullInfo");
-//?i=52818
+var edamamUrl = 'https://api.edamam.com/api/nutrition-details'
+
 
 //SHOW MEAL NAME ON SECOND PAGE
 function showMealTitle() { // HOW CAN WE GET THIS TO SHOW ONLY strMeal ??
@@ -32,67 +33,61 @@ function getMealId() {
                 const portions = { amount: data.meals[0]["strMeasure" + i], ingredient: data.meals[0]["strIngredient" + i] }
 
                 ingredientsPortion.push(portions);
-                const undefinedInConsole = "undefined";
-                const nullInConsole = "null";
-                const emptyStringInConsole = "";
 
-                if (ingredientsPortion.amount && ingredientsPortion.ingredient === undefinedInConsole) {
-                    //REMOVE FROM ARRAY
-                }
-    
-                if (ingredientsPortion.amount && ingredientsPortion.ingredient === nullInConsole) {
-                    //REMOVE FROM ARRAY
-                }
-                
-                if (ingredientsPortion.amount && ingredientsPortion.ingredient === emptyStringInConsole) {
-                    //REMOVE FROM ARRAY
-                }
+
             }
-            console.log(ingredientsPortion);
 
+            const filteredIngredientArray = ingredientsPortion.filter((value) => {
+                return value !== "" && value !== undefined && value !== null;
+            }
+            );
 
-
-
-        
-        //TURN AMOUNT + INGR INTO AN ARRAY OF STRINGS
-        // ["2 cups ingredient", "1 cup ingredient", etc]
-        
-        for (let i = 0; i < ingredientsPortion.length; i++) {
-            ingredientsPortion[i]
-            //TAKE THE VALUE OF AMOUNT AND TAKE THE VALUE OF INGREDIENT
-            //CONCAT VALUES 
-            //TURN THEM INTO A STRING
-            //PUT THEM INTO NEW ARRAY
-        }
-        
         })
+    console.log(filteredIngredientArray);
+    console.log(ingredientsPortion);
 }
-getMealId();
+
+
+
+
+
+//TURN AMOUNT + INGR INTO AN ARRAY OF STRINGS
+// ["2 cups ingredient", "1 cup ingredient", etc]
+
+//for (let i = 0; i < ingredientsPortion.length; i++) {
+   // ingredientsPortion[i]
+    //TAKE THE VALUE OF AMOUNT AND TAKE THE VALUE OF INGREDIENT
+    //CONCAT VALUES 
+    //TURN THEM INTO A STRING
+    //PUT THEM INTO NEW ARRAY
+//}
+//getMealId();
 
 
 //MAKE FETCH CALL TO EDAMAM WITH THE MEAL TITLE, INGR
 function fetchEdamam() {
 
-    const mealNameLocal = localStorage.getItem("clickedMeal", "strMeal");
-    const extractMealNameLocal = JSON.parse(mealNameLocal);
-    const mealName = extractMealNameLocal[0]['strMeal'];
-    console.log(mealName);
+const mealNameLocal = localStorage.getItem("clickedMeal", "strMeal");
+const extractMealNameLocal = JSON.parse(mealNameLocal);
+const mealName = extractMealNameLocal[0]['strMeal'];
+console.log(mealName);
+}
 
+/*
+fetch(edamamUrl, {
+Method: 'POST',
+Headers: {
+    Accept: 'application.json',
+    'Content-Type': 'application/json'
+},
+Body: {
+    "title": mealName, //need title of dish as a string -- THE MEAL THAT WAS CLICKED ON
+    "ingr": thecombinedmeasurementsandingredientsarray, //need qty of ingredients to be an array of strings
+    "yield": "1" //need number of servings as a string //default as 1
 
-    fetch(requestUrl, {
-        Method: 'POST',
-        Headers: {
-            Accept: 'application.json',
-            'Content-Type': 'application/json'
-        },
-        Body: {
-            "title": mealName, //need title of dish as a string -- THE MEAL THAT WAS CLICKED ON
-            "ingr": thecombinedmeasurementsandingredientsarray, //need qty of ingredients to be an array of strings
-            "yield": "1" //need number of servings as a string //default as 1
-
-        },
-        Cache: 'default'
-    })
+},
+Cache: 'default'
+})
 }
 
 fetchEdamam();
