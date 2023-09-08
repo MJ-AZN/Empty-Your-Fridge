@@ -55,12 +55,19 @@ getMealId();
 
 // Make fetch call to Edamam with meal title and ingredients
 function fetchEdamam(mealTitle, ingredients) {
-    const validIngredients = ingredients
-  .filter((ingredient) => typeof ingredient === 'string' && ingredient.trim() !== '')
-  .map((ingredient) => ingredient.trim());
-  // Replace this with the actual Edamam API endpoint and provide your credentials (API key)
+//     const validIngredients = ingredients
+//   .filter((ingredient) => typeof ingredient === 'string' && ingredient.trim() !== '')
+//   .map((ingredient) => ingredient.trim());
+  
   const edamamApiEndpoint = "https://api.edamam.com/api/nutrition-details?app_id=429109a1&app_key=397cd538930a1d66e3a85414ec06ce71";
   const edamamApiKey = "397cd538930a1d66e3a85414ec06ce71";
+
+    const mealNameLocal = localStorage.getItem("clickedMeal", "strMeal");
+    const extractMealNameLocal = JSON.parse(mealNameLocal);
+    const mealName = extractMealNameLocal[0]['strMeal'];
+    console.log(mealName);
+
+    const ingredientsArray = localStorage.getItem("ingredientsPortion.amounts")
 
   fetch(edamamApiEndpoint, {
     method: 'POST',
@@ -69,9 +76,9 @@ function fetchEdamam(mealTitle, ingredients) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "title": mealTitle,
+      "title": mealName,
       "ingr": ingredients,
-      "yield": "1" // You can customize the number of servings
+      "yield": "1"
     })
   })
   .then(function (response) {
