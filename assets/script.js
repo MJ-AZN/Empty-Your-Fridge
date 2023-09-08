@@ -73,7 +73,6 @@ function search(event) {
       .then(response => response.json())
       .then(data => {
         renderRecipes(data.meals);
-        console.log(data.meals);
       })
       .catch(error => {
         console.error('Error:', error);
@@ -126,7 +125,7 @@ function renderRecipes(meals) {
 
 
 
-;
+
 
 
 
