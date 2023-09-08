@@ -19,6 +19,7 @@ const selectedRecipeContainer = document.querySelector(".selectedRecipeContainer
 function search(event) {
   event.preventDefault();
   const userInput = ingredientSearchInput.value;
+  let jsonString = JSON.stringify(ingredientStack);
 
   if (!userInput) {
     console.log("User input was invalid.")
@@ -31,6 +32,7 @@ function search(event) {
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
   ingredientList.append(userList);
+  localStorage.setItem("ingredientStack", jsonString);
   ingredientSearchInput.value = "";
 
   const queryParams = {
