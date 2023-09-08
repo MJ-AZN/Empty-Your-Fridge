@@ -3,17 +3,17 @@ var selectedRecipeFullInfo = document.querySelector(".selectedRecipeFullInfo");
 //?i=52818
 
 //SHOW MEAL NAME ON SECOND PAGE
-function showMealTitle () { // HOW CAN WE GET THIS TO SHOW ONLY strMeal ??
-const clickedMealHeader = document.createElement("header");
-clickedMealHeader.textContent = localStorage.getItem("clickedMeal", "strMeal")
-selectedRecipeContainer.append(clickedMealHeader);
+function showMealTitle() { // HOW CAN WE GET THIS TO SHOW ONLY strMeal ??
+    const clickedMealHeader = document.createElement("header");
+    clickedMealHeader.textContent = localStorage.getItem("clickedMeal", "strMeal")
+    selectedRecipeContainer.append(clickedMealHeader);
 }
 showMealTitle();
 
 
 //GET MEAL ID, MAKE FETCH CALL TO THE MEAL API WITH THE MEAL ID, GET ING & MEASUREMENT
-function getMealId () {
-    const mealLocal = localStorage.getItem("clickedMeal","idMeal");
+function getMealId() {
+    const mealLocal = localStorage.getItem("clickedMeal", "idMeal");
     const extractMealLocal = JSON.parse(mealLocal);
     const mealId = extractMealLocal[0]['idMeal'];
     console.log(mealId);
@@ -21,59 +21,86 @@ function getMealId () {
 
     var requestUrl = "https://www.themealdb.com/api/json/v2/9973533/lookup.php?i=" + mealId;
 
-    fetch (requestUrl)
-    .then(function (response) {
-    return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        const ingredientsPortion = [];
-        for (let i = 0; i < 20; i++) {
-            const portions = {amount: data.meals[0]["strMeasure" + i], ingredient: data.meals[0]["strIngredient" + i]}
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            const ingredientsPortion = [];
+            for (let i = 0; i < 20; i++) {
+                const portions = { amount: data.meals[0]["strMeasure" + i], ingredient: data.meals[0]["strIngredient" + i] }
 
-            ingredientsPortion.push(portions);
+                ingredientsPortion.push(portions);
+                const undefinedInConsole = "undefined";
+                const nullInConsole = "null";
+                const emptyStringInConsole = "";
 
-            /*if ("strMeasure" === undefined && "strIngredient" === undefined) {
-                //REMOVE ROM ARRAY
+                if (ingredientsPortion.amount && ingredientsPortion.ingredient === undefinedInConsole) {
+                    //REMOVE FROM ARRAY
+                }
+    
+                if (ingredientsPortion.amount && ingredientsPortion.ingredient === nullInConsole) {
+                    //REMOVE FROM ARRAY
+                }
+                
+                if (ingredientsPortion.amount && ingredientsPortion.ingredient === emptyStringInConsole) {
+                    //REMOVE FROM ARRAY
+                }
             }
+            console.log(ingredientsPortion);
 
-            if ("strMeasure" === "" && "strIngredient" === "") {
-                //REMOVE FROM ARRAY
-            }
-            
-            if ("strMeasure" === null && "strIngredient" === null) {
-                //REMOVE FROM ARRAY
-            }
-            */
+
+
+
+        
+        //TURN AMOUNT + INGR INTO AN ARRAY OF STRINGS
+        // ["2 cups ingredient", "1 cup ingredient", etc]
+        
+        for (let i = 0; i < ingredientsPortion.length; i++) {
+            ingredientsPortion[i]
+            //TAKE THE VALUE OF AMOUNT AND TAKE THE VALUE OF INGREDIENT
+            //CONCAT VALUES 
+            //TURN THEM INTO A STRING
+            //PUT THEM INTO NEW ARRAY
         }
-        console.log(ingredientsPortion);
-    })
+        
+        })
 }
 getMealId();
 
 
+//MAKE FETCH CALL TO EDAMAM WITH THE MEAL TITLE, INGR
+function fetchEdamam() {
+
+    const mealNameLocal = localStorage.getItem("clickedMeal", "strMeal");
+    const extractMealNameLocal = JSON.parse(mealNameLocal);
+    const mealName = extractMealNameLocal[0]['strMeal'];
+    console.log(mealName);
+
+
+    fetch(requestUrl, {
+        Method: 'POST',
+        Headers: {
+            Accept: 'application.json',
+            'Content-Type': 'application/json'
+        },
+        Body: {
+            "title": mealName, //need title of dish as a string -- THE MEAL THAT WAS CLICKED ON
+            "ingr": thecombinedmeasurementsandingredientsarray, //need qty of ingredients to be an array of strings
+            "yield": "1" //need number of servings as a string //default as 1
+
+        },
+        Cache: 'default'
+    })
+}
+
+fetchEdamam();
 
 
 
 /*
----MAKE FETCH CALL TO EDAMAM WITH THE MEAL TITLE, INGR
-fetch(requestUrl, {
-Method: 'POST',
-Headers: {
-Accept: 'application.json',
-'Content-Type': 'application/json'
-},
-Body: {
-"title": selectedMeal, //need title of dish as a string -- THE MEAL THAT WAS CLICKED ON
-"ingr": thecombinedmeasurementsandingredientsarray, //need qty of ingredients to be an array of strings -- array is IngredientStack
-"yield": "1" //need number of servings as a string //default as 1
-
-}
-Cache: 'default'
-})
-}
-
----MONCE WE RECEIVE FETCH RESPONSE: LOAD THE NUTRITION ON THE PAGE
+---ONCE WE RECEIVE FETCH RESPONSE: LOAD THE NUTRITION ON THE PAGE
 
 dishInfo.createElement("li");
 dishInfo.textContent = calories, total fat, saturated fat, trans fat, cholesterol, sodium, total carbs, dietary fiber, total sugars, includes added sugars, protein, vitamin D, calcium, iron, potassium
