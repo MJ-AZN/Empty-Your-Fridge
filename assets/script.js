@@ -21,14 +21,16 @@ function search(event){
         ingredientStack.push(userInput);
         console.log(ingredientStack)
         
-    const userList = document.createElement("li"); // how will it know where to create the element?
-    var button = document.createElement("button");
+    const userList = document.createElement("li"); 
     userList.textContent = `${userInput}`;
     ingredientList.append(userList);
     ingredientSearchInput.value = "";
+
     const queryParams = { 
       i: ingredientStack
     };
+
+    var button = document.createElement("button");
     userList.appendChild(button);
     button.addEventListener("click", function(){
         userList.remove();
@@ -36,63 +38,58 @@ function search(event){
         if(index > -1){
             ingredientStack.splice(index, 1);
         }
-        // ingredientStack = ingredientStack.filter((word) => word !== "");
     })
 
 
     fetchRecipesByIngredients(queryParams);
-
-    /*
-    for (var i = 0; i < userList.length; i++){
-        var li = userList[i];
-        var button = document.createElement("button");
-        button.textContent = "-";
-        button.addEventListener("click", function(){
-            li.remove();
-        })
-        li.appendChild(button);
+  
+  
+    
+    function buildUrl(baseUrl) {
+      const url = new URL(baseUrl);
+      url.searchParams.append('i', userInput);
+      
+      
+      if (queryParams) {
+        for (const key in queryParams) {
+          url.searchParams.append(key, queryParams[key]);
+        }
+      }
+      
+      return url.href;
     }
-    */
-  
-  
-function fetchRecipesByIngredients(queryParams) {
-}
-  
-function buildUrl(baseUrl) {
-  const url = new URL(baseUrl);
-  url.searchParams.append('userParam', userInput);
-
-
-  if (queryParams) {
-    for (const key in queryParams) {
-      url.searchParams.append(key, queryParams[key]);
+    function fetchRecipesByIngredients(queryParams) {
+      const completeUrl = buildUrl(baseUrl, queryParams);
+      
+      fetch(completeUrl)
+      .then(response => response.json())
+      .then(data => {
+        renderRecipes(data.meals);
+        console.log(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
     }
   }
 
-  return url.href;
-}
-  const completeUrl = buildUrl(baseUrl, queryParams);
 
-  fetch(completeUrl)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-}
+function renderRecipes(meals) {
+  recipeList.innerHTML = ''; 
 
-
-function renderRecipes() {
-
+  meals.forEach(meal => {
+    const recipeItem = document.createElement('div');
+    recipeItem.classList.add('recipeItem');
+    
+    const recipeName = document.createElement('p');
+    recipeName.textContent = meal.strMeal; 
+    
+    recipeItem.appendChild(recipeName);
+    recipeList.appendChild(recipeItem);
+  });
 }
 
-let words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
 
-words = words.filter((word) => word !== "elite");
-
-console.log(words);
 
 
 /*
