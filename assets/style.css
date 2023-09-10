@@ -8,7 +8,6 @@
 .headerEl {
     padding: 20px;
     font-family: 'Dancing Script', cursive;
-    background-color: #A5D0DD;
     color:black;
     font-weight: bolder;
     text-align: center;
@@ -44,5 +43,16 @@ main{
     text-align: center;
 }
 
+footer{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
 
+.selectedRecipeContainer{
+    height: 800px;
+    width: 800px;
+    margin: auto;
+    background-color: #8C98B6;
+    text-align: center;
+}
 
