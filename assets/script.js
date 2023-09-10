@@ -34,13 +34,19 @@ function search(event) {
   userList.textContent = `${userInput}`;
   ingredientList.append(userList);
   localStorage.setItem(userList, jsonString);
+  userList.textContent = (`${userInput}` + "  ");
   ingredientSearchInput.value = "";
 
   const queryParams = {
     i: ingredientStack
   };
 
+ 
   let button = document.createElement("button");
+//  button.innerHTML = "x";
+  button.style.backgroundColor = "red";
+  button.style.width = '10px';
+  button.style.height = '10px';
   userList.appendChild(button);
   button.addEventListener("click", function () {
     userList.remove();
@@ -85,6 +91,7 @@ function search(event) {
 }
 
 
+
 function renderRecipes(meals) {
   recipeList.innerHTML = '';
   console.log(meals);
@@ -100,6 +107,10 @@ function renderRecipes(meals) {
 
     recipeItem.appendChild(recipeName);
     recipeList.appendChild(recipeItem);
+
+    recipeList.addEventListener("mouseover", function(){
+        recipeItem.style.color = "red";
+    });
 
 
 
@@ -123,10 +134,6 @@ function renderRecipes(meals) {
 
     })
   })
-
-  recipeList.addEventListener("mouseover", function(){
-    recipeItem.style.color = "red";
-});
 }
 
 
