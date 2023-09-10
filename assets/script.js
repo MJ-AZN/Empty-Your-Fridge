@@ -123,6 +123,10 @@ function renderRecipes(meals) {
 
     })
   })
+
+  recipeList.addEventListener("mouseover", function(){
+    recipeItem.style.color = "red";
+});
 }
 
 
