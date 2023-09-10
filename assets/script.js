@@ -27,12 +27,13 @@ function search(event) {
   }
 
   ingredientStack.push(userInput);
-  console.log(ingredientStack)
+  console.log(ingredientStack);
+  console.log(jsonString);
 
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
   ingredientList.append(userList);
-  localStorage.setItem("ingredientStack", jsonString);
+  localStorage.setItem(userList, jsonString);
   ingredientSearchInput.value = "";
 
   const queryParams = {
