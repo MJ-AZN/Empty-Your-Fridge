@@ -1,3 +1,5 @@
+const selectedRecipe = document.querySelector(".selectedRecipeContainer");
+const selectedRecipeFullInfo = document.querySelector(".selectedRecipeFullInfo");
 
 function getMealId() {
     const mealLocal = localStorage.getItem("clickedMeal");
@@ -32,7 +34,7 @@ function getMealId() {
         for (var i = 0; i < filteredArray.length; i++) {
             const amountTo = filteredArray[i].amount;
             const ingredientTo = filteredArray[i].ingredient;
-            const displayBoth = amountTo + (" ") + ingredientTo;
+            const displayBoth = (" ") + amountTo + (" ") + ingredientTo;
             console.log(displayBoth);
             finalFilteredIngredientArray.push(displayBoth)
         }
@@ -68,13 +70,50 @@ function getMealId() {
             })
             .then(function (data) {
                 console.log(data);
+
+                const Calories = document.createElement("li");
+                Calories.textContent = ("Calories - ") + data.calories
+                selectedRecipeFullInfo.append(Calories);
+
+                const cautions = document.createElement("li");
+                cautions.textContent = ("Cautions - ") + (data.cautions)
+                selectedRecipeFullInfo.append(cautions);
+
+                const dishType = document.createElement("li");
+                dishType.textContent = ("Dish Type - ") + data.dishType
+                selectedRecipeFullInfo.append(dishType);
+
+                const finalIngredients = document.createElement("li");
+                finalIngredients.textContent = finalFilteredIngredientArray
+                selectedRecipeFullInfo.append(finalIngredients);
+
+                const nutritionArray = [];
+                for (var i = 0; i < data.totalNutrients.length; i++) {
+                    nutritionArray.push(data.totalNutrients[i].CA.label)
+                }
+
+                const totalNutrients = document.createElement("li");
+                totalNutrients.textContent = ("Nutrients - ") + nutritionArray
+                selectedRecipeFullInfo.append(totalNutrients);
+                
             })
             .catch(function (error) {
                 console.error('Error:', error);
                 
-            });
+            })
+            console.log(data)
+            const clickedMealHeader = document.createElement("header");
+            clickedMealHeader.textContent = mealName
+            selectedRecipeFullInfo.append(clickedMealHeader);
             
+           
         }
     });
 }
+    
+
+
+
+
+
     getMealId();
