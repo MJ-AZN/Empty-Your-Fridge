@@ -48,4 +48,11 @@ footer{
     margin-bottom: 25px;
 }
 
+.selectedRecipeContainer{
+    height: 800px;
+    width: 800px;
+    margin: auto;
+    background-color: #8C98B6;
+    text-align: center;
+}
 
