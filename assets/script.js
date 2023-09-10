@@ -40,7 +40,7 @@ function search(event) {
     i: ingredientStack
   };
 
-  var button = document.createElement("button");
+  let button = document.createElement("button");
   userList.appendChild(button);
   button.addEventListener("click", function () {
     userList.remove();
