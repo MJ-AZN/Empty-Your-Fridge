@@ -32,6 +32,7 @@ function search(event) {
 
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
+  userList.style.color = "white";
   ingredientList.append(userList);
   localStorage.setItem(userInput, jsonString);
   ingredientSearchInput.value = "";
@@ -40,7 +41,12 @@ function search(event) {
     i: ingredientStack
   };
 
+ 
   let button = document.createElement("button");
+//  button.innerHTML = "x";
+  button.style.backgroundColor = "firebrick";
+  button.style.width = '10px';
+  button.style.height = '10px';
   userList.appendChild(button);
   button.addEventListener("click", function () {
     userList.remove();
@@ -85,6 +91,7 @@ function search(event) {
 }
 
 
+
 function renderRecipes(meals) {
   recipeList.innerHTML = '';
   console.log(meals);
@@ -101,6 +108,11 @@ function renderRecipes(meals) {
     recipeItem.appendChild(recipeName);
     recipeList.appendChild(recipeItem);
 
+    /*
+    recipeList.addEventListener("mouseover", function(){
+        recipeItem.style.color = "red";
+    });
+    */
 
 
     recipeName.addEventListener("click", (event) => {
@@ -123,10 +135,6 @@ function renderRecipes(meals) {
 
     })
   })
-
-  recipeList.addEventListener("mouseover", function(){
-    recipeItem.style.color = "red";
-});
 }
 
 
