@@ -33,7 +33,7 @@ function search(event) {
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
   ingredientList.append(userList);
-  localStorage.setItem(userList, jsonString);
+  localStorage.setItem(userInput, jsonString);
   ingredientSearchInput.value = "";
 
   const queryParams = {
