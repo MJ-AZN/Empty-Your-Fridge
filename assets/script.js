@@ -105,9 +105,6 @@ function renderRecipes(meals) {
     recipeName.setAttribute('href', redirectUrl);
     recipeName.setAttribute('target', '_blank');
 
-    recipeItem.addEventListener("mouseover", function(){
-        recipeItem.style.color = "blue";
-    });
     recipeItem.appendChild(recipeName);
     recipeList.appendChild(recipeItem);
 
