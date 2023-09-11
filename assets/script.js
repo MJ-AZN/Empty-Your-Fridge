@@ -32,8 +32,10 @@ function search(event) {
 
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
+  userList.style.color = "white";
   ingredientList.append(userList);
-  localStorage.setItem(userList, jsonString);
+  localStorage.setItem(userInput, jsonString);
+  localStorage.getItem(userInput);
   userList.textContent = (`${userInput}` + "  ");
   ingredientSearchInput.value = "";
 
@@ -44,7 +46,7 @@ function search(event) {
  
   let button = document.createElement("button");
 //  button.innerHTML = "x";
-  button.style.backgroundColor = "red";
+  button.style.backgroundColor = "firebrick";
   button.style.width = '10px';
   button.style.height = '10px';
   userList.appendChild(button);
