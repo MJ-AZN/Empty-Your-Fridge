@@ -19,6 +19,7 @@ const selectedRecipeContainer = document.querySelector(".selectedRecipeContainer
 function search(event) {
   event.preventDefault();
   const userInput = ingredientSearchInput.value;
+  let jsonString = JSON.stringify(ingredientStack);
 
   if (!userInput) {
     console.log("User input was invalid.")
@@ -26,18 +27,26 @@ function search(event) {
   }
 
   ingredientStack.push(userInput);
-  console.log(ingredientStack)
+  console.log(ingredientStack);
+  console.log(jsonString);
 
   const userList = document.createElement("li");
   userList.textContent = `${userInput}`;
+  userList.style.color = "white";
   ingredientList.append(userList);
+  localStorage.setItem(userInput, jsonString);
   ingredientSearchInput.value = "";
 
   const queryParams = {
     i: ingredientStack
   };
 
-  var button = document.createElement("button");
+ 
+  let button = document.createElement("button");
+//  button.innerHTML = "x";
+  button.style.backgroundColor = "firebrick";
+  button.style.width = '10px';
+  button.style.height = '10px';
   userList.appendChild(button);
   button.addEventListener("click", function () {
     userList.remove();
@@ -82,6 +91,7 @@ function search(event) {
 }
 
 
+
 function renderRecipes(meals) {
   recipeList.innerHTML = '';
   console.log(meals);
@@ -98,6 +108,11 @@ function renderRecipes(meals) {
     recipeItem.appendChild(recipeName);
     recipeList.appendChild(recipeItem);
 
+    /*
+    recipeList.addEventListener("mouseover", function(){
+        recipeItem.style.color = "red";
+    });
+    */
 
 
     recipeName.addEventListener("click", (event) => {

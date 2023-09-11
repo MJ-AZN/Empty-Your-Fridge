@@ -15,7 +15,7 @@
 }
 
 main{
-    background-color: hsl(0, 0%, 100%);
+    background-color: hsl(189, 42%, 78%);
     border-radius: 5px;
     border-width: 1px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px 0px;
@@ -33,6 +33,9 @@ main{
     margin: auto;
     background-color: #454D59;
     text-align: center;
+    color: white;
+    list-style-position: inside;
+    list-style-type: none;
 }
 
 .recipeContainer{
@@ -41,6 +44,11 @@ main{
     margin: auto;
     background-color: #8C98B6;
     text-align: center;
+    overflow-y: scroll;
+}
+
+.searchBtn{
+    background-color:rgb(55, 150, 179)
 }
 
 footer{
@@ -55,4 +63,9 @@ footer{
     background-color: #8C98B6;
     text-align: center;
 }
+
+.selectedRecipeFullInfo{
+    max-width: max-content;
+}
+
 
